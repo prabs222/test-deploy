@@ -224,19 +224,21 @@ RAZOR_KEY_SECRET = 'JsAv3yVNM7VOOTKB7MDsLigo'
 # }
 
 
+CELERY_BROKER_URL = "redis://red-cndo2guv3ddc73ccle00:6379"
+
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        "LOCATION": "redis://red-cndo2guv3ddc73ccle00:6379",
-        
+        # 'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        "BACKEND": "channels_redis.pubsub.RedisPubSubChannelLayer",
 
-        # 'CONFIG': {
-        #     "hosts": [('redis-11e44a76-rudranshofficial123-73ce.a.aivencloud.com', 27359)],
-        #     "password": "AVNS_RBG-nfeoVoVdAx1LhtF",
-        #     "ssl": True,  # Enable SSL
-        # },
+        'CONFIG': {
+            # "hosts": [('127.0.0.1', 6379)],
+            "hosts": [CELERY_BROKER_URL],
+
+        },
     },
 }
+
 
 
 
