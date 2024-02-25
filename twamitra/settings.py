@@ -40,11 +40,14 @@ DEBUG = True
 #     },
 # }
 ALLOWED_HOSTS = ['*']
+
 SOCIALACCOUNT_QUERY_EMAIL = True
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_REQUIRED = True
 SOCIALACCOUNT_LOGIN_ON_GET=True
+
+CSRF_TRUSTED_ORIGINS = ['https://*.test-deploy-klbw.onrender.com','https://*.127.0.0.1']
 
 
 LOGIN_REDIRECT_URL = "/dashboard/loan"
