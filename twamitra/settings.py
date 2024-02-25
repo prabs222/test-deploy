@@ -9,15 +9,14 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-import dj_database_url
 import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-import django
-django.setup()
+# import django
+# django.setup()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -211,14 +210,32 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 RAZOR_KEY_ID = 'rzp_test_uyZ3f8nCMwpNY6'
 RAZOR_KEY_SECRET = 'JsAv3yVNM7VOOTKB7MDsLigo'
 
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels.layers.InMemoryChannelLayer',
+#         # 'CONFIG': {
+#         #     'hosts': [('127.0.0.1', 6379)],
+#         # }
+#     }
+    
+# }
+
+
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        "LOCATION": "redis://red-cndo2guv3ddc73ccle00:6379",
+        
+
         # 'CONFIG': {
-        #     'hosts': [('127.0.0.1', 6379)],
-        # }
-    }
+        #     "hosts": [('redis-11e44a76-rudranshofficial123-73ce.a.aivencloud.com', 27359)],
+        #     "password": "AVNS_RBG-nfeoVoVdAx1LhtF",
+        #     "ssl": True,  # Enable SSL
+        # },
+    },
 }
+
+
 
 RECAPTCHA_SITE_KEY = '6LdN5VgpAAAAAKtNUFPtyaA5RIkuwSSmQl11_emT'
 RECAPTCHA_SECRET_KEY = '6LdN5VgpAAAAAMJGB93ac2iIp1tFTkG2J_-K-YHK'
