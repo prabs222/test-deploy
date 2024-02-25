@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-*=dc1x-hrz_)j4r*d5!dkp3027_xdz@989zchb@ed!p--&6-xu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 # LOGGING = {
 #     'version': 1,
 #     'disable_existing_loggers': False,
@@ -242,7 +242,5 @@ CHANNEL_LAYERS = {
 
 
 
-RECAPTCHA_SITE_KEY = '6LdN5VgpAAAAAKtNUFPtyaA5RIkuwSSmQl11_emT'
-RECAPTCHA_SECRET_KEY = '6LdN5VgpAAAAAMJGB93ac2iIp1tFTkG2J_-K-YHK'
 RECAPTCHA_PUBLIC_KEY = '6LdN5VgpAAAAAKtNUFPtyaA5RIkuwSSmQl11_emT'
 RECAPTCHA_PRIVATE_KEY = '6LdN5VgpAAAAAMJGB93ac2iIp1tFTkG2J_-K-YHK'
