@@ -1,0 +1,38 @@
+.confirmPaymentWrapper{
+    margin-top: 7rem;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+lord-icon{
+    width: 10rem;
+    height: 10rem;
+    margin-bottom: 2rem;
+}
+
+.serviceProvider p{
+    margin: 0.4rem 0 ;
+    font-size: 1.8rem;
+}
+
+.transaction{
+    margin-top: 2rem;
+}
+.amount{
+    font-size: 1.3rem;
+}
+.makePayment{
+    margin-top: 2rem;
+    width: 20rem;
+    height: 3rem;
+}
+
+@media screen and (max-width:480px) {
+    lord-icon{
+        width: 7rem;
+        height: 7rem;
+    }
+    .makePayment{
+        width: 15rem;
+    }
+}

@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+{% block css %}
+  {% block head_css_site %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'stylesheet/register.css' %}">
+  {% endblock head_css_site %}
+{% endblock css %}
+
+
+
+{% block content %}
+
+<section style="margin-left: 0%; margin-top: 5%; margin-bottom: 5%; width: 100%;" class="">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-9 col-lg-6 col-xl-5">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                    class="img-fluid" alt="Sample image">
+            </div>
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                <form action=""  method="post" onsubmit="return sub();"> 
+                    {% csrf_token %}
+                    <div>
+                        <p class="lead fw-normal mb-0 me-3">Register with</p>
+                        <br>
+                        <a href="{% provider_login_url 'google' %}">
+                          <button type="button" class="googleLoginBtn">
+                            <p><img src="{% static 'img/social.png' %}" alt=""></p>
+                          </button>
+                        </a>
+                      </div>
+
+                    <div class="divider d-flex align-items-center my-4">
+                        <p class="text-center fw-bold mx-3 mb-0">Or</p>
+                    </div>
+
+                    <!-- Email input -->
+                    <div class="form-outline mb-4">
+                        <input required type="email" id="email" name="email" class="form-control form-control-lg"
+                            />
+                        <label class="form-label pt-3" for="email">Email address</label>
+                    </div>
+
+                    <!-- Password input -->
+                    <div class="form-outline mb-3">
+                        <input required type="password" id="password" name="password1" class="form-control form-control-lg"
+                            />
+                        <label class="form-label pt-3" for="password">Password</label>
+                    </div>
+
+                    <ul class="passDesc">
+                        <li>Minimum length should be atleast 8</li>
+                        <li>Use atleast one special character like @#$!</li>
+                        <li>Use characters and numbers both</li>
+                    </ul>
+                    <!--Cnf-Password input -->
+                    <div class="form-outline mb-3">
+                        <input required type="password" oninput="checkConfirmPasswordOnBlur();" id="confirmPassword" name="password2" class="Cnf-Password form-control form-control-lg"
+                            />
+                        <label class="form-label pt-3" for="confirmPassword">Confirm Password</label>
+                    </div>
+                    <p id="confirmPasswordMessage" style="display: none; color: red;"></p>
+
+
+                    <!-- <div class="d-flex justify-content-between align-items-center">
+                        <div class="form-check mb-0">
+                            <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
+                            <label class="form-check-label pt-1" for="form2Example3">
+                                Remember me
+                            </label>
+                        </div>
+                    </div> -->
+
+
+                    <div class="form-group">
+                        {{ form.captcha }}
+                    </div>
+
+                    <div class="text-center text-lg-start mt-4 pt-2">
+                        <button type="submit" id="submitButton" class="btn btn-primary btn-lg submitBtn"
+                            >Register</button>
+                        <p class="small fw-bold mt-2 pt-1 mb-0">Already, have an account? <a href="{% url 'login' %}"
+                                class="link-primary">Login</a></p>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function checkConfirmPasswordOnBlur() {
+        var password = document.getElementById('password').value;
+        var confirmPassword = document.getElementById('confirmPassword').value;
+        var confirmPasswordMessage = document.getElementById('confirmPasswordMessage');
+        var submitButton = document.getElementById('submitButton');
+
+        if (password !== confirmPassword) {
+            confirmPasswordMessage.style.display = "block";
+            confirmPasswordMessage.innerText = 'Passwords do not match';
+            submitButton.disabled = true;
+        } else {
+            confirmPasswordMessage.style.display = "none";
+            submitButton.disabled = false;
+        }
+    }
+
+    function sub() {
+        passValidate();
+        var response = grecaptcha.getResponse();
+        if (response.length === 0) {
+            alert("Please complete the reCAPTCHA verification.");
+            return false; 
+        } else {
+            return true; 
+        }
+    }
+    function passValidate() {
+        var password = document.getElementById('password').value;
+        var confirmPassword = document.getElementById('confirmPassword').value;
+
+
+        if (password !== confirmPassword) {
+            event.preventDefault();
+            snackJS("Confirm password doen't match with password","warning");
+            return false;
+        }
+
+        if (password.length < 8) {
+            event.preventDefault();
+            snackJS("Password length should be more than 8", "warning");
+            return false;
+        }
+        if (password.search(/[a-zA-Z]/i) < 0) {
+            event.preventDefault();
+            snackJS("Password should contain atleast one character", "warning");
+            return false;
+        }
+        if (password.search(/[0-9]/i) < 0) {
+            event.preventDefault();
+            snackJS("Password should contain atleast one number", "warning");
+            return false;
+        }
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+            event.preventDefault();
+            snackJS("Password should contain at least one special character", "warning");
+            return false;
+        }
+        return true;
+    }
+</script>
+
+
+{% endblock %}

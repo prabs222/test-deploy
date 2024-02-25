@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+  {% block head_css_site %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'stylesheet/corporateRegistraion.css' %}">
+  {% endblock head_css_site %}
+  <style>
+  </style>
+
+  {% endblock css %}
+
+
+{% block content %}
+
+
+<section class="corporateRegWrapper">
+    <div class="corporateRegForm">
+        <div class="corporateRegImg">
+
+            <div class="corporateFormDetails">
+                <div class="anim">
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                </div>
+                <div class="cpinfo">
+
+                    <h1 data-aos="fade-up" data-aos-delay="50" >Corporate Registration</h1>
+                    <p data-aos="fade-up" data-aos-delay="100">Ascend the Corporate Heights: Elevate Your Success, Lead with Vision, and Achieve Pinnacle
+                        Excellence</p>
+                        <!-- <br> -->
+                        <hr>
+                    <ul>
+                        <li data-aos="fade-up" data-aos-delay="200" >Exclusive benefits upon registration</li>
+                        <li data-aos="fade-up" data-aos-delay="500" >Expand business connections with industry leaders</li>
+                        <li data-aos="fade-up" data-aos-delay="1000" >Access tailored financial solutions</li>
+                        <li data-aos="fade-up" data-aos-delay="1500" >Stay informed with industry insights</li>
+                        <li data-aos="fade-up" data-aos-delay="2000" >Participate in events for enhanced visibility</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <form action="" method="POST" onsubmit="return sub();">
+            <div class="regLog">
+                <button class="reg regLogbtn" type="button" style="background-color: var(--theme-lightRed-color);"><h3><a href="{% url 'corporate-registration' %}">Register</a></h3></button>
+                <div class="vl"></div>
+                <button class="log regLogbtn" type="button" style="color: var(--text-gray-color);"><h3><a href="{% url 'corporateLogin' %}">Login</a></h3></button>
+            </div>
+            {% csrf_token %}
+            <div class="form-outline" data-mdb-input-init>
+                <input type="text" id="name" name="name"  class="form-control"  required />
+                <label class="form-label " for="name">Name</label>
+            </div>
+            <div class="form-outline" data-mdb-input-init>
+                <input type="text" id="businessName" name="businessName"  class="form-control"  required />
+                <label class="form-label" for="businessName">Business Name</label>
+            </div>
+            <select class="form-select" id="profession" name="profession" aria-label="Default select example" required >
+                <option selected disabled value="">Profession</option>
+                {% for profession in professions %}
+                <option value="{{profession.name}}">{{profession}}</option>
+               {% endfor %}
+            </select>
+            <div class="form-outline" data-mdb-input-init>
+                <input type="email" id="email" name="email" class="form-control"  required />
+                <label class="form-label" for="email">Mail ID</label>
+            </div>
+            <div class="form-outline" data-mdb-input-init>
+                <input type="text" id="phone" name="phone" class="form-control"  required />
+                <label class="form-label" for="phone">Mobile no.</label>
+            </div>
+            <select class="form-select" name="location" aria-label="Default select example" required >
+                <option selected disabled value="">Location</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Noida">Noida</option>
+                <option value="Varanasi">Varanasi</option>
+                <option value="Jhansi">Jhansi</option>
+            </select>
+            <div class="form-outline" data-mdb-input-init>
+                <input type="password" name="password1" id="password" class="form-control"  required />
+                <label class="form-label" for="password">Password</label>
+            </div>
+            <ul class="passDesc">
+                <li>Minimum length should be atleast 8</li>
+                <li>Use atleast one special character like @#$!</li>
+                <li>Use characters and numbers both</li>
+            </ul>
+            <div class="form-outline" data-mdb-input-init>
+                <input type="password" oninput="checkConfirmPasswordOnBlur();" name="password2" id="confirmPassword" class="form-control"  required />
+                <label class="form-label" for="confirmPassword">Confirm Password</label>
+            </div>
+            <p id="confirmPasswordMessage" style="display: none; color: red;"></p>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="accept_terms" id="acceptTermsCheckbox" required>
+                <label class="form-check-label" for="acceptTermsCheckbox">
+                    I agree to the Terms and Conditions
+                </label>
+            </div>
+            <div class="form-group">
+                {{ form.captcha }}
+            </div>
+
+
+            <div>
+                <center>
+                    <button type="submit" id="submitButton" class="btn btn-primary" data-mdb-ripple-init>Submit</button>
+                </center>
+            </div>
+        </form>
+
+    </div>
+</section>
+
+<script>
+
+    function checkConfirmPasswordOnBlur() {
+        var password = document.getElementById('password').value;
+        var confirmPassword = document.getElementById('confirmPassword').value;
+        var confirmPasswordMessage = document.getElementById('confirmPasswordMessage');
+        var submitButton = document.getElementById('submitButton');
+
+        if (password !== confirmPassword) {
+            confirmPasswordMessage.style.display = "block";
+            confirmPasswordMessage.innerText = 'Passwords do not match';
+            submitButton.disabled = true;
+        } else {
+            confirmPasswordMessage.style.display = "none";
+            submitButton.disabled = false;
+        }
+    }
+
+    function sub() {
+        validateReg();
+        var response = grecaptcha.getResponse();
+        if (response.length === 0) {
+            alert("Please complete the reCAPTCHA verification.");
+            return false; 
+        } else {
+            return true; 
+        }
+    }
+    function validateReg() {
+        var phone = document.getElementById('phone').value;
+        var password = document.getElementById('password').value;
+        var confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (phone.length < 10) {
+            event.preventDefault();
+            snackJS("Invalid Mobile number", "warning")
+            return false;
+        }
+        if (password !== confirmPassword) {
+            event.preventDefault();
+            snackJS("Confirm password doen't match with password");
+            return false;
+        }
+
+        if (password.length < 8) {
+            event.preventDefault();
+            snackJS("Password length should be more than 8", "warning");
+            return false;
+        }
+        if (password.search(/[a-zA-Z]/i) < 0) {
+            event.preventDefault();
+            snackJS("Password should contain atleast one character", "warning");
+            return false;
+        }
+        if (password.search(/[0-9]/i) < 0) {
+            event.preventDefault();
+            snackJS("Password should contain atleast one number", "warning");
+            return false;
+        }
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+            event.preventDefault();
+            snackJS("Password should contain at least one special character", "warning");
+            return false;
+        }
+        return true;
+    }
+</script>
+
+
+
+
+{% endblock %}

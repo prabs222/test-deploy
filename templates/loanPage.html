@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+{% block css %}
+  {% block head_css_site %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'stylesheet/loanPage.css' %}">
+  {% endblock head_css_site %}
+{% endblock css %}
+
+
+
+{% block content %}
+
+<div class="loansWrapper">
+    <header class="loansHead">
+        <h2>Loan Mitra</h2>
+    </header>
+    <div class="loanContainer">
+        <ul>
+            <li data-aos="fade-up"  >
+                <a href="{% url 'homeLoan' %}">
+                    <div class="loan">
+                        <img src="{% static 'img/homeLoan.jpg' %}" alt="">
+                        <div class="loanText">
+                            <h5>Home loan</h5>
+                            <p>Turn your dream of owning a home into reality with our tailored home loan solutions.
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li data-aos="fade-up"  >
+                <a href="{% url 'personalLoan' %}">
+                    <div class="loan">
+                        <img src="{% static 'img/quickPersonalLoan.jpg' %}" alt="">
+                        <div class="loanText">
+                            <h5>Personal loan</h5>
+                            <p>Empower your personal growth with our quick and accessible personal loan options.</p>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li data-aos="fade-up"  >
+                <a href="{% url 'carLoan' %}">
+                    <div class="loan">
+                        <img src="{% static '/img/carLoan.jpg' %}" alt="">
+                        <div class="loanText">
+                            <h5>Car loan</h5>
+                            <p>Hit the road with your dream car through our easy and competitive car loan offerings.
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li data-aos="fade-up"  >
+                <a href="{% url 'educationLoan' %}">
+                    <div class="loan">
+                        <img src="{% static '/img/educationLoan.jpg' %}" alt="">
+                        <div class="loanText">
+                            <h5>Education loan</h5>
+                            <p>Invest in your future with our education loan plans, ensuring a brighter tomorrow.
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li data-aos="fade-up"  >
+                <a href="{% url 'usedCarLoan' %}">
+                    <div class="loan">
+                        <img src="{% static '/img/usedCar.jpg' %}" alt="">
+                        <div class="loanText">
+                            <h5>Used Car loan</h5>
+                            <p>Drive home a reliable used car with our convenient and affordable used car loan
+                                solutions.</p>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li data-aos="fade-up"  >
+                <a href="{% url 'twoWheelerLoan' %}">
+                    <div class="loan">
+                        <img src="{% static '/img/twoWheelerLoan.jpg' %}" alt="">
+                        <div class="loanText">
+                            <h5>Two Wheeler loan</h5>
+                            <p>Experience the thrill of the open road with our two-wheeler loan options tailored for
+                                you.</p>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+
+<script>
+    AOS.init({
+        offset: 0,
+        duration: 500,
+    });
+</script>
+
+{% endblock %}

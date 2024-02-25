@@ -1,0 +1,42 @@
+.container-fluid{
+    margin-top: 10rem;
+}
+@media screen and (max-width:992px) {
+    .container-fluid {
+        margin-top: 7rem;
+    }
+}
+.lead{
+    text-align: center;
+    width: 100%;
+}
+.googleLoginBtn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.7rem 2rem;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.122);
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.06);
+    border-radius: 5px;
+}
+.googleLoginBtn:hover{
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.125);
+
+}
+.googleLoginBtn img{
+    height: 1.5rem;
+    margin-right: 0.4rem;
+}
+.text-center{
+    width: 100%;
+    text-align: center;
+}
+.submitBtn{
+    width: 100%;
+}
+
+.forgotPw:hover{
+    text-decoration: underline;
+}

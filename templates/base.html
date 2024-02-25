@@ -1,0 +1,153 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Twamitra</title>
+    <!-- MDB icon -->
+    <link rel="icon" href="{% static 'img/logo.png' %}" type="image/x-icon" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
+    <!-- MDB -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merienda">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    {% block css %}
+    {% block head_css_site %}
+    <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'stylesheet/home.css' %}" type='text/css'>
+    <!-- aos lib -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/node-snackbar@latest/src/js/snackbar.min.js"></script>
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/node-snackbar@latest/dist/snackbar.min.css" />
+    {% endblock head_css_site %}
+    {% endblock css %}
+
+
+</head>
+
+<body>
+    <!-- included the navbar component -->
+    {% include 'navbar.html'%}
+
+    <!-- Using flash messages -->
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% block content %}
+
+    {% endblock %}
+
+    <!-- included the footer component -->
+    {% include 'footer.html'%}
+
+    <!-- MDB -->
+    <script type="text/javascript" src="{% static 'js/mdb.min.js' %}"></script>
+    <!-- aos lib -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            offset: 70,
+            duration: 1000,
+        });
+    </script>
+
+    <script>
+        // Check if the <ul> element with class 'messages' exists
+        var ulElement = document.querySelector('.messages');
+        if (ulElement) {
+            // Get the <li> element within the <ul> if it exists
+            var liElement = ulElement.querySelector('li');
+
+            // Check if the <li> element exists
+            if (liElement) {
+                // Get the text content of the <li> element
+                var liText = liElement.textContent.trim();
+
+                // Remove single quotes around the JSON-like string
+                var jsonString = liText.replace(/'/g, '"');
+
+                // Parse the JSON-like string into a JavaScript object
+                var messageObject = JSON.parse(jsonString);
+
+                // Now, 'messageObject' contains the JavaScript object
+                console.log(messageObject);
+
+                // Access individual properties
+                console.log('Status:', messageObject.status);
+                console.log('Message:', messageObject.message);
+                snack();
+            } else {
+                console.log('No <li> element found within the <ul class="messages">.');
+            }
+        } else {
+            console.log('No <ul class="messages"> element found.');
+        }
+
+        function snackJS(message, status) {
+            switch (status) {
+                case "success":
+                    var color = "#4BB543";
+                    break;
+                case "warning":
+                    var color = "#FF5F15";
+                    break;
+                case "error":
+                    var color = "#ff0000";
+                    break;
+            }
+
+            Snackbar.show({
+                text: message,
+                pos: 'bottom-left',
+                backgroundColor: color,
+                textColor: 'white',
+                actionTextColor: 'white',
+            });
+        }
+        function comingSoon() {
+            Snackbar.show({
+                text: "This feature will be available soon",
+                pos: 'bottom-left',
+                backgroundColor: "#4BB543",
+                textColor: 'white',
+                actionTextColor: 'white',
+            });
+        }
+
+        function snack() {
+            if (messageObject.status == "error") {
+                var color = "#ed4337";
+            }
+            else {
+                var color = "#4bb543"
+            }
+
+
+            Snackbar.show({
+                text: messageObject.message,
+                pos: 'bottom-left',
+                backgroundColor: color,
+                textColor: 'white',
+                actionTextColor: 'white',
+            });
+        }
+    </script>
+
+</body>
+
+</html>

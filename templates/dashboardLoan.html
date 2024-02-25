@@ -1,0 +1,41 @@
+<div class="loansWrapper">
+    <header class="loanHead">
+        <h3>Your Loans</h3>
+        <div class="dropdown-container">
+            <button class="dropdown-button">Filter<i class="fas fa-caret-down"></i></button>
+            <div class="dropdown-content">
+              <a href="#">Completed</a>
+              <a href="#">Pending</a>
+            </div>
+          </div>
+    </header>
+    {% if loans.count == 0 %}
+
+    <div class="Noloans">
+        <center>
+            <lord-icon src="https://cdn.lordicon.com/fkaukecx.json" trigger="loop" delay="1000" colors="primary:#336699"
+                style="width:200px;height:200px">
+            </lord-icon>
+            <h3>You haven't applied for any loan.</h3>
+        </center>
+    </div>
+    {% endif %}
+
+    <ul class="loanList">
+        {% for loan in loans %}
+        <li class="loanItem">
+            <h4 class="loanName">{{loan.loan_type.name}}</h4>
+            {% if loan.is_confirmed %}
+            <p class="loanStatus">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                <label class="form-check-label" for="flexCheckDefault">Completed</label>
+            </p>
+            {% else %}
+            <p class="loanStatus"><i class="fas fa-rotate"></i>Pending</p>
+            {% endif %}
+            <p class="loanAmout"><b>Loan Amount - </b>&#8377; {{loan.loan_amount}}</p>
+            <p class="loanDate"><b>Request Date - </b>{{loan.created_at}}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</div>

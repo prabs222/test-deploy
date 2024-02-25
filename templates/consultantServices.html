@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+  {% block head_css_site %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'stylesheet/services.css' %}">
+
+  {% endblock head_css_site %}
+{% endblock css %}
+
+
+{% block content %}
+
+
+<div class="servicesWrapper" >
+    <h1>Our Services</h1>
+    <div class="servicesList" data-aos="fade-up">
+        <a href="{% url 'subServices' 'DSA' %}" class="serviceItem"  data-aos="fade-up">
+            <h3>DSA <br>(Direct Selling Agent)</h3>
+            <hr>
+            <p>Empower your business with our DSA services. Unlock opportunities for effective marketing and sales.</p>
+        </a>
+        <a href="{% url 'subServices' 'CA' %}" class="serviceItem"  data-aos="fade-up">
+            <h3>CA <br> (Chartered Accountant)</h3>
+            <hr>
+            <p>Financial expertise at your fingertips. Consult with our experienced Chartered Accountants for strategic financial planning.</p>
+        </a>
+        <a href="{% url 'subServices' 'ARCHITECT' %}" class="serviceItem"  data-aos="fade-up">
+            <h3>Architect</h3>
+            <hr>
+            <p>Create stunning spaces with our architectural services. Design and plan your projects with experienced architects.</p>
+        </a>
+        <a href="{% url 'subServices' 'ADVOCATE' %}" class="serviceItem"  data-aos="fade-up">
+            <h3>Advocate/Legal Advisor </h3>
+            <hr>
+            <p>Navigate the legal landscape with our expert advocacy services. Strategize and safeguard your legal interests with seasoned advocates.</p>
+        </a>
+        <a href="{% url 'subServices' 'OTHERS' %}" class="serviceItem"  data-aos="fade-up" >
+            <h3>Any Other</h3>
+            <hr>
+            <p>Customized solutions tailored to your unique needs. Explore our diverse range of services beyond DSA, CA, Architect, and Valuer.</p>
+        </a>
+    </div>
+</div>
+
+
+{% endblock %}

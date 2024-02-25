@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+{% block css %}
+{% block head_css_site %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'stylesheet/appointmentSuccess.css' %}">
+{% endblock head_css_site %}
+{% endblock css %}
+
+
+{% block content %}
+
+<div class="appointmentConfirmationWrapper">
+    <header class="confirmationHeader">
+        <lord-icon src="https://cdn.lordicon.com/oqdmuxru.json" trigger="in" delay="500" colors="primary:#336699">
+        </lord-icon>
+        <h1>Your Application is successful</h1>
+    </header>
+    <main class="confirmationDetails">
+        <p><b>Service Name</b><span>{{appointment.serviceType.name}}</span></p>
+        <p><b>Service Provider Name</b><span>{{appointment.corporate.user.name}}</span></p>
+        <p><b>Service Provider Company</b><span>{{appointment.corporate.companyName}}</span></p>
+    </main>
+</div>
+
+
+<script src="https://cdn.lordicon.com/lordicon.js"></script>
+
+
+{% endblock %}
+

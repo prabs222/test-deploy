@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+  {% block head_css_site %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'stylesheet/corporateRegistraion.css' %}">
+  {% endblock head_css_site %}
+  <style>
+  </style>
+
+  {% endblock css %}
+
+
+{% block content %}
+
+
+<section class="corporateRegWrapper">
+    <div class="corporateRegForm">
+        <div class="corporateRegImg">
+
+            <div class="corporateFormDetails">
+                <div class="anim">
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                </div>
+                <div class="cpinfo">
+
+                    <h1 data-aos="fade-up" data-aos-delay="50" >Corporate Login</h1>
+                    <p data-aos="fade-up" data-aos-delay="100">Ascend the Corporate Heights: Elevate Your Success, Lead with Vision, and Achieve Pinnacle
+                        Excellence</p>
+                        <!-- <br> -->
+                        <hr>
+                    <ul>
+                        <li data-aos="fade-up" data-aos-delay="200" >Exclusive benefits upon registration</li>
+                        <li data-aos="fade-up" data-aos-delay="500" >Expand business connections with industry leaders</li>
+                        <li data-aos="fade-up" data-aos-delay="1000" >Access tailored financial solutions</li>
+                        <li data-aos="fade-up" data-aos-delay="1500" >Stay informed with industry insights</li>
+                        <li data-aos="fade-up" data-aos-delay="2000" >Participate in events for enhanced visibility</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <form action="" method="POST">
+            <div class="regLog">
+                <button class="reg regLogbtn" type="button" style="color: var(--text-gray-color);"><h3><a href="{% url 'corporate-registration' %}">Register</a></h3></button>
+                <div class="vl"></div>
+                <button class="log regLogbtn" type="button" style="background-color: var(--theme-lightRed-color);"><h3><a href="{% url 'corporateLogin' %}">Login</a></h3></button>
+            </div>
+            {% csrf_token %}
+                <div class="form-outline" data-mdb-input-init>
+                    <input type="email" id="form12" name="email" class="form-control" required />
+                    <label class="form-label" for="form12">Mail ID</label>
+                </div>
+                <div class="form-outline" data-mdb-input-init>
+                    <input type="password" id="password" name="password" class="form-control" required/>
+                    <label class="form-label" for="password">Password</label>
+
+                </div>
+                <div>
+                    <center>
+                        <button type="submit" id="submitButton" class="btn btn-primary" data-mdb-ripple-init
+                            >Submit</button>
+                    </center>
+                </div>
+            </form>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+{% block head_css_site %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'stylesheet/userDashboard.css' %}">
+
+{% endblock head_css_site %}
+{% endblock css %}
+
+
+{% block content %}
+
+
+
+
+
+<div class="userDashboardWrapper">
+    <div class="leftSideBarWrapper">
+        <div class="SidebarToggler">
+            <button class="rightArrow">&gt</button>
+            <button class="leftArrow">&lt</button>
+        </div>
+        <header class="welcomeHead">
+            {% if user.userdb.profilePic.url%}
+            <img src="{{user.userdb.profilePic.url}}" alt="" height="100rem" width="100rem">
+            {% else %}
+            <img src="{% static 'img/userDefault.svg' %}" alt="" height="100rem" width="100rem">
+            {% endif %}
+            <h3>Welcome</h3>
+            <p>{{user.email}}</p>
+        </header>
+        <ul class="sideBar">
+            <li>
+                <a href="{% url 'userDashboard' 'loan'%}">
+                    <img width="22" height="22"
+                        src="https://img.icons8.com/external-smashingstocks-mixed-smashing-stocks/68/ffffff/external-Loan-personal-loan-smashingstocks-mixed-smashing-stocks-5.png"
+                        alt="external-Loan-personal-loan-smashingstocks-mixed-smashing-stocks-5"
+                        alt="external-Loan-personal-loan-smashingstocks-mixed-smashing-stocks-5" /> Loans
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'userDashboard' 'service'%}">
+                    <img width="22" height="22" src="https://img.icons8.com/ios-filled/50/ffffff/permanent-job.png"
+                        alt="permanent-job" />
+                    Services
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'userDashboard' 'history'%}">
+                    <img width="22" height="22"
+                        src="https://img.icons8.com/ios-filled/50/ffffff/user-male-circle.png"
+                        alt="user-male-circle" />
+                    History
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <img width="22" height="22"
+                        src="https://img.icons8.com/ios-filled/50/ffffff/user-male-circle.png"
+                        alt="user-male-circle" />
+                    Update Profile
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="mainWrapper">
+        <div class="userProfileForm">
+            <header class="updateHead">
+                <h3>Update profile</h3>
+            </header>
+            <form action="" class="updateUser" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-outline" data-mdb-input-init>
+                    {% if user.name == None %}
+                    <input type="text" name="name" value="" id="name" class="form-control" />
+                    {% else %}
+                    <input type="text" name="name" value="{{user.name}}" id="name" class="form-control" />
+                    {% endif %}
+                    <label class="form-label" for="name">Name</label>
+                </div>
+                <div class="form-outline" data-mdb-input-init>
+                    <input type="text" name="address" id="address" value="{{userdb.address}}" class="form-control" />
+                    <label class="form-label " for="address">Address</label>
+                </div>
+                <div class="form-outline" data-mdb-input-init>
+                    <input type="number" name="pincode" id="pincode" value="{{userdb.pincode}}" class="form-control" />
+                    <label class="form-label" for="pincode">Pin Code</label>
+                </div>
+                <div class="form-outline" data-mdb-input-init>
+                    <input type="number" name="phone" id="phone" value="{{user.phone}}"  class="form-control" />
+                    <label class="form-label" for="phone">Phone</label>
+                </div>
+                <div>
+                    <label class="form-label"  for="profilepic">Upload Profile Photo</label>
+                    <input type="file" name="profilepic" class="form-control" id="profilepic" />
+                </div>
+                <div>
+                    <button type="submit" id="updateUser" class="btn btn-primary" data-mdb-ripple-init>Update Profile</button>
+                </div>
+            </form>
+        </div>
+        <div class="updatePass">
+            <header class="updatePassHead">
+                <h3>Update password</h3>
+            </header>
+            <form action="#" class="updatePassForm" onsubmit="return passUpdate()">
+                <div class="form-outline" data-mdb-input-init>
+                    <input type="password" id="oldPass" class="form-control" />
+                    <label class="form-label " for="oldPass">Current password</label>
+                </div>
+                <div class="form-outline" data-mdb-input-init>
+                    <input type="password" id="newPass" class="form-control" />
+                    <label class="form-label" for="newPass">New password</label>
+                </div>
+                <ul class="passDesc">
+                    <li>Minimum length should be atleast 8</li>
+                    <li>Use atleast one special character like @#$!</li>
+                    <li>Use characters and numbers both</li>
+                </ul>
+                <div class="form-outline" data-mdb-input-init>
+                    <input type="password" id="cfNewPass" class="form-control" />
+                    <label class="form-label " for="cfNewPass">Re-enter new password</label>
+                </div>
+                <div>
+                    <button type="submit" id="updatePassbtn" class="btn btn-primary" data-mdb-ripple-init>Update Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}

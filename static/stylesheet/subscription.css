@@ -1,0 +1,46 @@
+.subscriptionPlanWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 8rem;
+    margin-bottom: 3rem;
+}
+.subscriptionHead{
+    margin-bottom: 1.5rem;
+}
+.plansContainer{
+    display: flex;
+    flex-wrap:wrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+}
+.plan{
+    box-shadow: 0 0 10px 2px rgb(209, 209, 209);
+    border-radius: 10px;
+    padding: 1rem;
+}
+.plan lord-icon{
+    width: 10rem;
+    height: 10rem;
+}
+.subDuration{
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+.subPrice{
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: var(--theme-red-color);
+}
+.subOldPrice{
+    color: var(--theme-yellow-color);
+}
+.subNewPrice{
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: var(--theme-red-color);
+}

@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load hide_email %}
+{% load hide_phone %}
+
+{% block css %}
+{% block head_css_site %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'stylesheet/corporateList.css' %}">
+
+{% endblock head_css_site %}
+{% endblock css %}
+
+
+{% block content %}
+
+
+<div class="corporateListWrapper">
+    <header class="corporateListHead">
+        <h2>Corporate List</h2>
+    </header>
+    <form id="locationFilterForm" method="get" action="{% url 'viewProviders' %}">
+        <label for="locationFilter">
+            <h5>Filter by Location:</h5>
+        </label>
+        <select id="locationFilter" name="location">
+            <option value="">All Locations</option>
+            {% for loc in locations %}
+            {% if loc == location_filter %}
+            <option value="{{loc}}" selected>{{loc}}</option>
+            {% else %}
+            <option value="{{loc}}">{{loc}}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
+        <input type="hidden" name="service_name" value="{{ service.name }}">
+        <input type="hidden" name="service_price" value="{{ service.price }}">
+    </form>
+
+    <ul class="corporateList">
+        {% for corporate in corporates %}
+        <form method="POST" action="{% url 'bookAppointment' %}">
+            {% csrf_token %}
+            <li class="corporateItem">
+                <div class="corporateProfileImg">
+                    <img src="{{corporate.profilePic.url}}" alt="">
+                </div>
+                <div class="corporateDetails">
+                    <p class="corporateName">{{corporate.user.name}}</p>
+                    <p class="corporateEmail"><b>Email ID</b> - {{corporate.user.email|hide_email}}</p>
+                    <p class="corporateMob"><b>Mobile no</b> - {{corporate.user.phone|hide_phone}}</p>
+                    <div class="ratingApply">
+                        
+                        <p class="corporateRating"><b>Ratings</b> :{% if corporate.rating == 0 %} --{% else %} {{corporate.rating}} {% endif %}/5 [{{corporate.total_ratings}}]</p>
+                        <p class="corporateApply"><button type="submit" class="corporateApplybtn">Apply</button> </p>
+                    </div>
+                    <input type="hidden" name="service" value="{{service.name}}">
+                    <input type="hidden" name="cpid" value="{{corporate.cid}}">
+                </div>
+            </li>
+        </form>
+        {% endfor %}
+    </ul>
+    {% if corporates.count == 0 %}
+    <div class="noCorporateWrapper">
+        <center>
+            <lord-icon src="https://cdn.lordicon.com/keaiyjcx.json" trigger="loop" delay="2000" colors="primary:#336699"
+                style="width:150px;height:150px">
+            </lord-icon>
+        
+        <h4>Sorry, We couldn't find any corporates for this location.
+        </h4>
+
+        <h6>Try other nearest Locations</h6>
+    </center>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    document.getElementById('locationFilter').addEventListener('change', function () {
+        document.getElementById('locationFilterForm').submit();
+    });
+</script>
+<script src="https://cdn.lordicon.com/lordicon.js"></script>
+
+
+
+{% endblock %}

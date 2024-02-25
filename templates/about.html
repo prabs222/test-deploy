@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+{% block css %}
+  {% block head_css_site %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'stylesheet/about.css' %}">
+  {% endblock head_css_site %}
+{% endblock css %}
+
+
+{% block content %}
+
+<div class="aboutPageWrapper">
+    <header>
+        <h3 class="aboutHead">About Us</h3>
+    </header>
+    <div class="aboutPage">
+        <div class="aoutImg">
+            <img src="{% static 'img/aboutUs.png' %}" alt="">
+        </div>
+        <div class="aboutDetails">
+            <h5>Welcome to Twamitra</h5>
+            <p>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nisi natus suscipit temporibus, sint quis
+                recusandae laudantium dolorum iure? Minima itaque molestias dolorum distinctio suscipit consequatur
+                provident deleniti aspernatur error consequuntur fugit odio voluptas veritatis, voluptate necessitatibus
+                possimus? Deserunt consequuntur dolorum ex iste! Illum eaque id mollitia vel aspernatur! Quod,
+                doloribus?
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit facilis voluptas sint odio doloremque enim temporibus mollitia repellat magnam ex!
+            </p>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

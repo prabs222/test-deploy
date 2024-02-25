@@ -1,0 +1,74 @@
+<header class="historyHead">
+    <h3>History</h3>
+</header>
+<div class="history">
+    <header>
+        <h5>Services <i class="fas fa-angle-up serviceOpen arrow"></i></h5>
+    </header>
+    <hr>
+    <ul class="serviceListHistory">
+        {% for appointment in pastAppointments%}
+       
+        <li class="serviceItemHistory">
+            <h6 class="serviceNameHistory">{{appointment.serviceType.name}}</h6>
+            <p class="viewDetailsHistory"><a href="{% url 'providerDetails' appointment.corporate.cid %}">View Details</a></p>
+            <p class="providerNameHistory"><b>Provider - </b>{{appointment.corporate.user.name}}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+<div class="history">
+    <header>
+        <h5>Loans <i class="fas fa-angle-up loanOpen arrow"></i></h5>
+    </header>
+    <hr>
+    <ul class="loanList loanListHistory">
+        <li class="loanItem">
+            <h6 class="loanName">Car Loan</h6>
+            <p class="loanAmout"><b>Amount - </b>&#8377; 20,46,247</p>
+            <p class="loanDate"><b>Issue Date - </b>10th Dec 2002</p>
+        </li>
+        <li class="loanItem">
+            <h6 class="loanName">Car Loan</h6>
+            <p class="loanAmout"><b>Amount - </b>&#8377; 20,46,247</p>
+            <p class="loanDate"><b>Issue Date - </b>10th Dec 2002</p>
+        </li>
+        <li class="loanItem">
+            <h6 class="loanName">Car Loan</h6>
+            <p class="loanAmout"><b>Amount - </b>&#8377; 20,46,247</p>
+            <p class="loanDate"><b>Issue Date - </b>10th Dec 2002</p>
+        </li>
+    </ul>
+</div>
+
+<script>
+    const services = document.querySelector(".serviceListHistory");
+    const loans = document.querySelector(".loanListHistory");
+    const servicesOpen = document.querySelector(".serviceOpen");
+    const loansOpen = document.querySelector(".loanOpen");
+
+    services.style.display = "block";
+    loans.style.display = "block";
+
+    servicesOpen.addEventListener("click", () => {
+        if (services.style.display === "block") {
+            services.style.display = "none";
+        } else {
+            services.style.display = "block";
+        }
+        servicesOpen.classList.toggle("open"); // Toggle the 'open' class on click
+    });
+
+    loansOpen.addEventListener("click", () => {
+        if (loans.style.display === "block") {
+            loans.style.display = "none";
+        } else {
+            loans.style.display = "block";
+            loansOpen.classList.add("open"); // Add the 'open' class
+        }
+        loansOpen.classList.toggle("open"); // Toggle the 'open' class on click
+    });
+
+
+
+</script>

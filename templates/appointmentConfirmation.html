@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+  {% block head_css_site %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'stylesheet/confirmPayment.css' %}">
+  {% endblock head_css_site %}
+  <style>
+  </style>
+
+  {% endblock css %}
+{% block content %}
+
+<div class="confirmPaymentWrapper">
+  <lord-icon src="https://cdn.lordicon.com/xuyycdjx.json" trigger="loop" colors="primary:#336699" delay="1000">
+  </lord-icon>
+  <form>
+    <h2>Click on Make Payment button to book your appointment!</h2>
+    <div class="serviceProvider">
+      <p><b>Service Provider : </b>{{appointment.corporate.user.name}}</p>
+      <p><b>Transaction Amount : </b>  &#8377; {{amount}}</p>
+    </div>
+    <button type="button" id="pay-btn" class="btn btn-primary makePayment">Make Payment</button>
+  </form>
+</div>
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  var options = {
+    key: "{{ razorpay_merchant_key }}", 
+    amount: "{{ razorpay_amount }}", 
+    currency: "INR",
+    name: "Twamitra", 
+    description: "Appointment with {{appointment.corporate.user.name}}",
+    prefill: {
+      name: "{{appointment.customer.name}}",
+      email: "{{appointment.customer.email}}"
+    },
+    notes: {
+      address: "Twamitra Office"
+    },
+    order_id: "{{ razorpay_order_id }}", 
+    callback_url: "{{ callback_url }}",
+  };
+  var rzp1 = new Razorpay(options);
+  document.getElementById("pay-btn").onclick = function (e) {
+    rzp1.open();
+    e.preventDefault();
+  };
+</script>
+
+<script src="https://cdn.lordicon.com/lordicon.js"></script>
+
+{% endblock %}

@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+{% block css %}
+{% block head_css_site %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'stylesheet/dashboard.css' %}">
+{% endblock head_css_site %}
+{% endblock css %}
+
+
+{% block content %}
+<div class="dashboardWrapper">
+    <div class="dashboardSideBar sideWall">
+        <div class="sideBarToggler" id="sideBarToggler">
+            <button class="rightArrow">&gt</button>
+            <button class="leftArrow">&lt</button>
+        </div>
+        <div class="dashboardSideBarContents">
+            <h3>Services</h3>
+            <ul>
+                {% for service in services %}
+                <li><a class="linkSideBar"
+                        href="{% url 'viewCorporateAppointments' service.alias %}">{{service.name}}<span
+                            class="count">{{service.count}}</span></a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <main class="dashboardMain">
+        <div class="profileFormWrapper">
+            <div class="updateProfile">
+                <h3 class="updateProfileHead">{% if corporate.is_active == True %}Update{% else %}Complete{% endif %}
+                    profile</h3>
+                <form action="" method="POST" class="profileForm" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-outline" data-mdb-input-init>
+                        <input type="text" name="companyName" id="form12" class="form-control"
+                            value="{{data.companyName}}" required />
+                        <label class="form-label" for="form12">Company Name</label>
+                    </div>
+                    <div class="form-outline" data-mdb-input-init>
+                        <input type="text" name="experience" id="form12" class="form-control"
+                            value="{{data.experience}}" required />
+                        <label class="form-label" for="form12">Experience</label>
+                    </div>
+                    <div class="form-outline" data-mdb-input-init>
+                        <input type="text" name="address" id="form12" class="form-control" value="{{data.address}}"
+                            required />
+                        <label class="form-label" for="form12">Address</label>
+                    </div>
+                    <div class="form-outline" data-mdb-input-init>
+                        <input type="text" name="pincode" id="form12" class="form-control" value="{{data.pincode}}"
+                            required />
+                        <label class="form-label" for="form12">Pincode</label>
+                    </div>
+                    <div class="form-outline" data-mdb-input-init>
+                        <input type="text" name="aadhar" id="form12" class="form-control" value="{{data.aadhar}}"
+                            required />
+                        <label class="form-label" for="form12">Aadhar no</label>
+                    </div>
+                    <div class="form-outline" data-mdb-input-init>
+                        <input type="text" name="pan" id="form12" class="form-control" value="{{data.pan}}" required />
+                        <label class="form-label" for="form12">Pan no</label>
+                    </div>
+
+                    <div class="form-outline" data-mdb-input-init>
+                        <input type="text" name="alternatePhone" id="form12" class="form-control"
+                            value="{{data.alternatePhone}}" required />
+                        <label class="form-label" for="form12">Alternate mobile no</label>
+                    </div>
+                    <div>
+                        <label class="form-label" for="customFile">Upload Profile Photo</label>
+                        <input type="file" name="profilePic" class="form-control" id="customFile"
+                            value="{{data.profilePic}}" />
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">{% if corporate.is_active == True %} Update {% else %} Complete {% endif %} Profile</button>
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="updateCorPassWrapper">
+                <h3 class="updatePassHead">Update Password</h3>
+                <form action="#" class="updateCorPassForm" onsubmit="return passUpdate()">
+                    <div class="form-outline" data-mdb-input-init>
+                        <input type="password" id="oldPass" class="form-control" />
+                        <label class="form-label" for="oldPass">Current Password</label>
+                    </div>
+                    <div class="form-outline" data-mdb-input-init>
+                        <input type="password" id="newPass" class="form-control" />
+                        <label class="form-label" for="newPass">New Password</label>
+                    </div>
+                    <ul class="passDesc">
+                        <li>Minimum length should be atleast 8</li>
+                        <li>Use atleast one special character like @#$!</li>
+                        <li>Use characters and numbers both</li>
+                    </ul>
+                    <div class="form-outline" data-mdb-input-init>
+                        <input type="password" id="cfNewPass" class="form-control" />
+                        <label class="form-label" for="cfNewPass">Confirm Password</label>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" type="submit">Update Password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var completeProfileButton = document.querySelector(".btn-outline-primary");
+        var dashboardSideBar = document.querySelector(".dashboardSideBar");
+        var rightArrow = document.querySelector(".rightArrow");
+        var leftArrow = document.querySelector(".leftArrow");
+
+
+
+        function updateSidebarVisibility() {
+            if (window.innerWidth <= 720) {
+                rightArrow.style.display = "block";
+                dashboardSideBar.style.left = "-17rem";
+            } else {
+                rightArrow.style.display = "none";
+                dashboardSideBar.style.left = "0rem";
+            }
+        }
+
+
+        rightArrow.addEventListener("click", () => {
+            rightArrow.style.display = "none";
+            dashboardSideBar.style.left = "0";
+        });
+
+        leftArrow.addEventListener("click", () => {
+            rightArrow.style.display = "block";
+            dashboardSideBar.style.left = "-17rem";
+        });
+
+        window.addEventListener("resize", () => {
+            updateSidebarVisibility();
+        });
+
+
+        updateSidebarVisibility();
+    });
+
+
+    async function fetchVerification() {
+        var verifyStatus = document.getElementById('verifyStatus');
+        url = "yePeUrlAyega";
+        try {
+            const result = await fetch(url);
+            const response = await response.json();
+            console.log(response);
+            if (result) {
+                verifyStatus.style.display = "block";
+                verifyStatus.innerText = 'Verified';
+                verifyStatus.style.color = "green"
+            }
+            else {
+                verifyStatus.style.display = "block";
+                verifyStatus.innerText = 'Wrong Code';
+                verifyStatus.style.color = "red"
+            }
+        }
+        catch {
+            alert("Error while fetching API");
+        }
+
+    }
+</script>
+<script>
+
+    function passValidate() {
+        var password = document.getElementById('newPass').value;
+        var confirmPassword = document.getElementById('cfNewPass').value;
+
+
+        if (password !== confirmPassword) {
+            event.preventDefault();
+            snackJS("Confirm password doen't match with password", "warning");
+            return false;
+        }
+
+        if (password.length < 8) {
+            event.preventDefault();
+            snackJS("Password length should be more than 8", "warning");
+            return false;
+        }
+        if (password.search(/[a-zA-Z]/i) < 0) {
+            event.preventDefault();
+            snackJS("Password should contain atleast one character", "warning");
+            return false;
+        }
+        if (password.search(/[0-9]/i) < 0) {
+            event.preventDefault();
+            snackJS("Password should contain atleast one number", "warning");
+            return false;
+        }
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+            event.preventDefault();
+            snackJS("Password should contain at least one special character", "warning");
+            return false;
+        }
+        return true;
+    }
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+.profileFormWrapper{
+    margin-top: 7rem;
+    margin-bottom: 4rem;
+    display: flex;
+    justify-content: center;
+}
+.profileForm{
+    background-color: white;
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.229);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 2rem;
+}
+.profileForm label{
+    margin-top: 0.3rem;
+}
+#image{
+    display: none;
+}

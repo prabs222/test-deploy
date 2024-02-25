@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+{% block head_css_site %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'stylesheet/subservice.css' %}">
+
+{% endblock head_css_site %}
+{% endblock css %}
+
+
+{% block content %}
+
+
+
+
+<div class="subServicesWrapper">
+    <header>
+        <h1>{{profession.name}} Services</h1>
+        <p>Professional {{profession.name}} Services</p>
+    </header>
+    <table class="subServicesTable">
+        <thead class="subServicesTableHead">
+            <th class="servicesNameHead">
+                <h2>Services</h2>
+            </th>
+            <th class="servicesPriceHead">
+                <h2>Price</h2>
+            </th>
+            <th class="servicesApplyHead">
+                <h2>Apply</h2>
+            </th>
+        </thead>
+        {% for service in services %}
+        <form action="{% url 'viewProviders' %}" method="get">
+            <tr class="subServicesTableRow">
+                <td class="service">
+                    <h5>{{service.name}}</h5>
+                    <p>Create innovative and functional architectural designs for residential and commercial spaces.</p>
+                </td>
+                <td class="price">
+                    <p>&#8377;{{service.price}}</p>
+                </td>
+                <td class="apply">
+                    <input type="hidden" name="service_name" value="{{ service.name }}">
+                    <input type="hidden" name="service_price" value="{{ service.price }}">
+                    <button type="submit" class="btn btn-tertiary">
+                        <p>View Providers</p>
+                    </button>
+                </td>
+            </tr>
+        </form>
+        {% endfor %}
+
+    </table>
+</div>
+
+
+
+{% endblock %}

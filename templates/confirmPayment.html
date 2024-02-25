@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+  {% block head_css_site %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'stylesheet/confirmPayment.css' %}">
+  {% endblock head_css_site %}
+  <style>
+  </style>
+
+  {% endblock css %}
+{% block content %}
+
+
+<div class="confirmPaymentWrapper">
+  <lord-icon src="https://cdn.lordicon.com/xuyycdjx.json" trigger="loop" colors="primary:#336699" delay="1000">
+  </lord-icon>
+  <form>
+    <h2>Click on Make Payment button to confirm your payment</h2>
+    <h4 class="transaction">Transaction Amount</h4>
+    <p class="amount"> &#8377; {{amount}}</p>
+    <button type="button" id="pay-btn" class="btn btn-primary makePayment">Make Payment</button>
+  </form>
+</div>
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  var options = {
+    key: "{{ razorpay_merchant_key }}", 
+    amount: "{{ razorpay_amount }}", 
+    currency: "INR",
+    name: "Twamitra", 
+    order_id: "{{ razorpay_order_id }}", 
+    callback_url: "{{ callback_url }}",
+  };
+  var rzp1 = new Razorpay(options);
+  document.getElementById("pay-btn").onclick = function (e) {
+    rzp1.open();
+    e.preventDefault();
+  };
+</script>
+<script src="https://cdn.lordicon.com/lordicon.js"></script>
+
+
+{% endblock %}

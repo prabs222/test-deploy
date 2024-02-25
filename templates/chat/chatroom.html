@@ -1,0 +1,211 @@
+{% load static %}
+{% load get_last_message %}
+
+{% if user.is_authenticated %}
+<input type="hidden" id="logged-in-user" value="{{ request.user.id }}">
+{% endif %}
+
+<div class="chatbotWrapper">
+    <button class="chatIcon">
+        <i class="fas fa-comment"></i>
+    </button>
+    <div class="chatList">
+        <div class="chatHead">
+            <h5>Chats</h5>
+        </div>
+        <div class="closeChat" onclick="closeChat()">
+            <i class="fas fa-angle-down"></i>
+        </div>
+        {% if threads.count == 0 %}
+            <div class="noAppointments">
+                <img src="{% static 'img/noAppointments.png' %}" alt="">
+                <h5>You Don't have any appointments yet.</h5>
+            </div>
+        {% else %}
+            <ul class="chats" onclick="showSpecificChat(event)">
+                {% for thread in threads %}
+                <li class="chatDetials" chat-id="chat_{{ thread.id }}">
+                    <a href="#">
+                        {% if thread.customer == request.user %}
+                        <img src="{{ thread.corporate.corporatedb.profilePic.url }}" alt="">
+                        <div class="chatContent">
+                        <p class="chatName"><b>{{thread.corporate.name}}</b></p>
+
+                        {% else %}
+                            {% if thread.customer.name == None %}
+                            <img src="https://st.depositphotos.com/1008939/2240/i/450/depositphotos_22408839-stock-photo-serious.jpg" alt="">
+                            <div class="chatContent">
+                            <p class="chatName"><b>{{thread.customer}}</b></p>
+
+                            {% else %}
+                            <img src="{{thread.customer.userdb.profilePic.url}}" alt="">
+                            <div class="chatContent">
+                            <p class="chatName"><b>{{thread.customer.name}}</b></p>
+
+                            {% endif %} 
+                        {% endif %}
+                            
+                        {% with last_message=thread|get_last_message %}
+                            {% if last_message %}
+                                <p class="chatLastMsg">{{ last_message.message }}</p>
+                            {% endif %}
+                        {% endwith %}
+                            
+                        </div>
+                        <div class="newMsg">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+    </div>
+    {% for thread in threads %}
+    <div class="specificChat hide" chat-id="chat_{{ thread.id }}" other-user-id="
+                        {% if thread.customer == request.user %}
+                            {{ thread.corporate.id }}
+                        {% else %}
+                            {{ thread.customer.id }}
+                        {% endif %} " >
+        <div class="specificHead">
+          
+            {% if thread.customer == request.user %}
+            <img src="{{ thread.corporate.corporatedb.profilePic.url }}" alt="">
+            <p>{{thread.corporate.name}}</p>
+            {% else %}
+                {% if thread.customer.name == None %}
+                <img src="https://st.depositphotos.com/1008939/2240/i/450/depositphotos_22408839-stock-photo-serious.jpg" alt="">
+                <p>{{thread.customer}}</p>
+                {% else %}
+                <img src="{{thread.customer.userdb.profilePic.url}}" alt="">
+                <p>{{thread.customer.name}}</p>
+                {% endif %}
+            {% endif %}
+        </div>
+        <div class="closeSpecificChat" onclick="closeSpecificChat()">
+            <i class="fas fa-xmark"></i>
+        </div>
+        <div class="chat">
+            <div class="chatContainer">
+                {% for message in thread.messages.all %}
+
+                {% if message.sender == request.user %}
+                <div class="sentMsg">
+                    <div>
+                        <p class="msg">{{message.message}}</p>
+                        <p class="msgTime">{{message.timestamp}}</p>
+                    </div>
+                </div> 
+                {% else %}
+                <div class="receivedMsg">
+                    <div>
+                        <p class="msg">{{message.message}}</p>
+                        <p class="msgTime">{{message.timestamp}}</p>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div> 
+    </div>
+    {% endfor%}
+    <form class="inputChatContainer" id="send-message-form">
+        <input type="text" placeholder="Type here" id="message-input">
+        <button type="submit" class="inpMsgsubmitBtn" ><i class="far fa-paper-plane"></i></button>
+    </form>
+</div>
+
+<script>
+    var chatBtn = document.querySelector(".chatIcon");
+    var chatList = document.querySelector(".chatList");
+    // var closeChat = document.querySelector(".closeChat");
+    // var closeSpecificChat = document.getElementById("closeSpecificChat");
+    var specificChats = document.querySelectorAll(".specificChat");
+    var inputChatContainer = document.getElementById("send-message-form");
+
+
+    // if (window.innerWidth <= 480) {
+    //     var closeChat = () => {
+    //         chatList.style.bottom = "-100vh";
+    //     }
+    // }
+    // else {
+    //     var closeChat = () => {
+    //         chatList.style.bottom = "-30rem";
+    //     }
+    // }
+    var closeChat = () => {
+            chatList.style.bottom = "-35rem";
+        }
+    chatBtn.addEventListener("click", () => {
+        chatList.style.bottom = "0rem"
+    })
+
+
+    function snack() {
+        Snackbar.show({
+            text: 'hello',
+            pos: 'bottom-center',
+            backgroundColor: '#4BB543',
+            textColor: 'white',
+            actionTextColor: 'white',
+        });
+    }
+
+
+    var chatContainer = document.querySelector(".chatContainer");
+    function scrollDown(){
+        event.preventDefault();
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    function closeSpecificChat(){
+        specificChats.forEach(chat => {
+            chat.classList.remove('is_active');
+            inputChatContainer.style.display = "none"
+        })
+    }
+
+
+    
+
+
+    function showSpecificChat(event) {
+    if (event.target.closest('.chatDetials')) {
+        event.preventDefault();
+        const chatId = event.target.closest('.chatDetials').getAttribute('chat-id');
+        hideAllSpecificChats();
+        showSpecificChatById(chatId);
+    }
+}
+
+function hideAllSpecificChats() {
+    const specificChats = document.querySelectorAll('.specificChat');
+    specificChats.forEach(chat => {
+        if(chat.classList.contains('is_active')){
+            chat.classList.remove('is_active');
+            inputChatContainer.style.display = "none"
+
+        }
+    });
+}
+
+function showSpecificChatById(chatId) {
+    const specificChat = document.querySelector(`.specificChat[chat-id="${chatId}"]`);
+    if (specificChat) {
+        specificChat.classList.add('is_active');
+        inputChatContainer.style.display = "grid"
+
+        //let input_message = getActiveInput();
+        //let send_message_form = getActiveForm();
+        //console.log(send_message_form)
+        //console.log(input_message)
+    }
+}
+
+
+</script>
+
+<script src="{% static 'js/chatroom.js' %}"></script>

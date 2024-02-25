@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+  {% block head_css_site %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'stylesheet/providerDetails.css' %}">
+  {% endblock head_css_site %}
+{% endblock css %}
+
+
+{% block content %}
+
+<div class="viewProviderWrapper">
+    <div class="provider">
+        <div class="imgHead">    
+            <div class="providerImg">
+                <img src="{{corporate.profilePic.url}}"
+                alt="">
+            </div>
+            <div class="providerHead">
+                <p class="providerName">{{corporate.user.name}}</p>
+                <p class="providerService">{{corporate.profession.name}}</p>
+            </div>
+        </div>
+        <div class="providerDetails">
+            <p class="detailsHead"><b>Provider </b></p>
+            <p class="detailsInfo">{{corporate.user.name}}</p>
+            <p class="detailsHead"><b>Business Name</b></p>
+            <p class="detailsInfo">{{corporate.businessName}}</p>
+            <p class="detailsHead"><b>Profession</b></p>
+            <p class="detailsInfo">{{corporate.profession.name}}</p>
+            <p class="detailsHead"><b>Mail ID</b></p>
+            <p class="detailsInfo">{{corporate.user.email}}</p>
+            <p class="detailsHead"><b>Address</b></p>
+            <p class="detailsInfo">{{corporate.address}}</p>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

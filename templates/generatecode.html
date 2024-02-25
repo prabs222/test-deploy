@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Form</title>
+</head>
+<body>
+
+<h2>Enter Code and Percentage</h2>
+
+<form method="post" action=""> <!-- Replace "/submit/" with your desired URL endpoint -->
+    {% csrf_token %} <!-- Add this line if you're using Django's CSRF protection -->
+    <label for="code">Code:</label><br>
+    <input type="text" id="code" name="code" value="{{ unique_code }}"><br><br>
+    
+    
+    <label for="percentage">Percentage:</label><br>
+    <select id="percentage" name="percentage">
+        <option value="25%">25%</option>
+        <option value="50%">50%</option>
+        <option value="75%">75%</option>
+        <option value="100%">100%</option>
+    </select><br><br>
+    
+    <input type="submit" value="Submit">
+</form>
+
+</body>
+</html>

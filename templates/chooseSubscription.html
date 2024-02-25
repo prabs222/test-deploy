@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+{% block css %}
+  {% block head_css_site %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'stylesheet/subscription.css' %}">
+  {% endblock head_css_site %}
+{% endblock css %}
+
+
+{% block content %}
+
+
+{% if discount != True %}
+<div class="subscriptionPlanWrapper">
+    <header class="subscriptionHead">
+        <h2>Subscription Plans</h2>
+    </header>
+    <ul class="plansContainer">
+        {% comment %}
+        {% for subscription in subscriptions %}
+        <li class="plan">
+            <div class="months3">
+                <lord-icon src="https://cdn.lordicon.com/qxqvtswi.json" trigger="loop" state="hover-roll"
+                    colors="primary:#1663c7,secondary:#d1f3fa,tertiary:#110a5c">
+                </lord-icon>
+                <p class="subDuration">{{subscription.value}} Months</p>
+                <p class="subPrice">&#8377; {{subscription.default_price|stringformat:"i"}}</p>
+                <button class="btn btn-outline-warning" onclick="fetchVerification()">Subscribe</button>
+            </div>
+        </li>
+        {% endfor %}
+        {% endcomment %}
+        <!-- subscription_form.html -->
+{% for subscription in subscriptions %}
+<form method="post" action="{% url 'initiatePaymentRequest' %}">
+    {% csrf_token %}
+    <li class="plan">
+        <div class="months3">
+            <lord-icon src="https://cdn.lordicon.com/qxqvtswi.json" trigger="loop" state="hover-roll"
+                colors="primary:#1663c7,secondary:#d1f3fa,tertiary:#110a5c">
+            </lord-icon>
+            <p class="subDuration">{{subscription.value}} Months</p>
+            <p class="subPrice">&#8377; {{subscription.default_price|stringformat:"i"}}</p>
+            <input type="hidden" name="value" value="{{subscription.value}}">
+            <input type="hidden" name="default_price" value="{{subscription.default_price}}">
+            <input type="hidden" name="referralCode" value="{{referralCode}}">
+            <button type="submit" class="btn btn-outline-warning">Subscribe</button>
+        </div>
+    </li>
+</form>
+{% endfor %}
+
+
+        
+        
+    </ul>
+</div>
+{% else %}
+<div class="subscriptionPlanWrapper">
+    <header class="subscriptionHead">
+        <h2>Subscription Plans</h2>
+    </header>
+    <ul class="plansContainer">
+        {% for subscription in subscriptions %}
+        <form method="post" action="{% url 'initiatePaymentRequest' %}">
+            {% csrf_token %}
+        <li class="plan">
+            <div class="months12">
+                <lord-icon src="https://cdn.lordicon.com/qxqvtswi.json" trigger="loop" state="hover-roll"
+                    colors="primary:#1663c7,secondary:#d1f3fa,tertiary:#110a5c">
+                </lord-icon>
+                <p class="subDuration">{{subscription.value}} Months</p>
+                <p class="subOldPrice"><s>&#8377; {{subscription.default_price|stringformat:"i"}}</s></p>
+                <p class="subNewPrice">&#8377; {{subscription.new_price|stringformat:"i"}}</p>
+                <input type="hidden" name="value" value="{{subscription.value}}">
+                <input type="hidden" name="default_price" value="{{subscription.default_price}}">
+                <input type="hidden" name="new_price" value="{{subscription.new_price}}">
+                <input type="hidden" name="referralCode" value="{{referralCode}}">
+                <button type="submit" class="btn btn-outline-warning">Subscribe</button>
+            </div>
+        </li>
+        </form>
+        {% endfor %}
+    </ul>
+</div>
+
+
+{% endif %}
+<script>
+
+</script>
+<script src="https://cdn.lordicon.com/lordicon.js"></script>
+
+{% endblock %}

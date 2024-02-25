@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+{% block css %}
+{% block head_css_site %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'stylesheet/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'stylesheet/chat.css' %}">
+
+{% endblock head_css_site %}
+{% endblock css %}
+
+
+{% block content %}
+
+<div class="dashboardWrapper">
+    <div class="dashboardSideBar sideWall">
+        <div class="sideBarToggler" id="sideBarToggler">
+            <button class="rightArrow">&gt</button>
+            <button class="leftArrow">&lt</button>
+        </div>
+        <div class="dashboardSideBarContents">
+            <h3>Services</h3>
+            <ul>
+                {% for service in services %}
+                <li><a class="linkSideBar" href="{% url 'viewCorporateAppointments' service.alias %}">{{service.name}}<span class="count">{{service.count}}</span></a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <main class="dashboardMain">
+        <div class="dashboardContent">
+            <div class="allServices">
+                <header class="allServiceHead">
+                    <h3>Appointments History</h3>
+                </header>
+                <div class="servicesContainer">
+                    {% if appointments.count == 0 %}
+                    <div class="NoServices">
+                        <center>
+                            <lord-icon src="https://cdn.lordicon.com/fkaukecx.json" trigger="loop"  delay="1000" colors="primary:#336699"
+                                style="width:200px;height:200px">
+                            </lord-icon>
+                            <h3>You don't have any appointments yet.</h3>
+                        </center>
+                    </div>
+                    {% endif %}
+      
+                    <ul>
+                        {% for appointment in appointments %}
+                            <li class="serviceItem">
+                                <h5 class="serviceName">{{appointment.serviceType.name}}</h5>
+                                <p class="clientName"><b>Client </b>- {{appointment.customer}}</p>
+                                <p class="applyDate"><b>Application Date</b> - {{appointment.created_at|date}}</p>
+                            </li> 
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="profileContent">
+            
+            <div>
+                {% if corporate.is_active %}
+                <img src="{{corporate.profilePic.url}}" alt="">
+                {% else %}
+                <img src="{% static 'img/userDefault.svg' %}" alt="">
+                {% endif %}
+                <h3>Profile</h3>
+                
+                <p class="profileStatus">Status - <span>{% if corporate.is_active == True %}Active{% else %}Inactive{% endif %}</span></p>
+                {% if corporate.is_active == True %}
+                <a href="{% url 'corporateProfileForm' %}">
+                    <button class="btn btn-outline-primary">Update Profile</button>
+                </a>
+                {% else %}
+                <button id="completeProfileButton" class="btn btn-outline-primary">Complete Profile</button>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+</div>
+<div class="packagePromptWrapper">
+    <div class="prompt">
+        <div class="cancelPrompt">
+            <i class="fas fa-xmark"></i>
+        </div>
+        <header class="promptHead">
+            <center>
+                <h3>Connet to Twamitra</h3>
+            </center>
+        </header>
+        <div class="promptPlans">
+            <form action="/verifyReferralCode/" class="refCodeForm" method="POST">
+                {% csrf_token %}
+                <p>Have a referral code ?</p>
+                <div class="refCode">
+                    <div class="form-outline refInput">
+                        <input
+                            type="text"
+                            name="referralCode"
+                            id="referralCode"
+                            class="form-control"
+                            oninput="updateVerifyButton()"
+                        />
+                        <label class="form-label" for="form12">Referral code</label>
+                    </div>
+                    <button type="button" class="refVerify" onclick="fetchVerification()" disabled>Verify</button>
+                </div>
+                <p id="verifyStatus" style="display: none;"></p>
+                <button type="submit" id="applyButton" class="btn btn-primary" >Apply</button>
+                <p class="info">If you don't have a referral code you can still apply</p>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% include 'chat/chatroom.html'%}
+
+<script>
+
+        function submitForm(appointmentId) {
+            document.getElementById("appointmentForm" + appointmentId).submit();
+        }
+        
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var completeProfileButton = document.getElementById("completeProfileButton");
+        var packagePromptWrapper = document.querySelector(".packagePromptWrapper");
+        var cancelPromptButton = document.querySelector(".cancelPrompt");
+        var dashboardSideBar = document.querySelector(".dashboardSideBar");
+        var rightArrow = document.querySelector(".rightArrow");
+        var leftArrow = document.querySelector(".leftArrow");
+
+        function togglePackagePrompt() {
+            packagePromptWrapper.classList.toggle("show");
+        }
+
+        function updateSidebarVisibility() {
+            if (window.innerWidth <= 720) {
+                rightArrow.style.display = "block";
+                dashboardSideBar.style.left = "-17rem";
+            } else {
+                rightArrow.style.display = "none";
+                dashboardSideBar.style.left = "0rem";
+            }
+        }
+
+        completeProfileButton.addEventListener("click", function () {
+            togglePackagePrompt();
+        });
+
+        cancelPromptButton.addEventListener("click", function () {
+            togglePackagePrompt();
+        });
+
+        rightArrow.addEventListener("click", () => {
+            rightArrow.style.display = "none";
+            dashboardSideBar.style.left = "0";
+        });
+
+        leftArrow.addEventListener("click", () => {
+            rightArrow.style.display = "block";
+            dashboardSideBar.style.left = "-17rem";
+        });
+
+        window.addEventListener("resize", () => {
+            updateSidebarVisibility();
+        });
+
+
+        updateSidebarVisibility();
+    });
+
+
+    async function fetchVerification() {
+        var verifyStatus = document.getElementById('verifyStatus');
+        var referralCode = document.getElementById('referralCode').value;
+        console.log("HELLO REFER");
+        console.log(referralCode);
+
+
+        var url = `/checkReferralCode/${referralCode}`;
+        
+        try {
+            const result = await fetch(url);
+            const response = await result.json();
+            
+            if (response.status) {
+                // Code is verified
+                verifyStatus.style.display = "block";
+                verifyStatus.innerText = response.message;
+                verifyStatus.style.color = "green";
+            } else {
+                // Code is not verified
+                verifyStatus.style.display = "block";
+                verifyStatus.innerText = response.message;
+                verifyStatus.style.color = "red";
+            }
+        } catch (error) {
+            console.error("Error while fetching API:", error);
+            alert("Error while fetching API");
+        }
+    }
+
+    function updateVerifyButton() {
+        var referralCodeInput = document.getElementById('referralCode');
+        var verifyButton = document.querySelector('.refVerify');
+        var applyButton = document.getElementById('applyButton');
+        var verifyStatus = document.getElementById('verifyStatus');
+
+        if (referralCodeInput.value.length >= 8) {
+            verifyButton.removeAttribute('disabled');
+            applyButton.removeAttribute('disabled');
+            verifyStatus.innerText = '';
+        } else {
+            verifyButton.setAttribute('disabled', 'true');
+            verifyStatus.style.display = "block";
+            verifyStatus.style.color = "red"
+            verifyStatus.innerText = 'Referral code must be at least 8 characters';
+        }
+    }
+    
+    </script>
+<script src="https://cdn.lordicon.com/lordicon.js"></script>
+
+
+{% endblock %}
+

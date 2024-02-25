@@ -1,0 +1,85 @@
+/* Add these styles to your services.css file */
+
+.servicesWrapper {
+    padding-top: 7rem;
+    padding-bottom: 3rem;
+    text-align: center;
+}
+
+.servicesWrapper h1 {
+    color: var(--theme-red-color);
+}
+
+.servicesList {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    /* padding-inline: 10rem; */
+    gap: 20px;
+    border-radius: 10px;
+    /* margin-top: 30px; */
+}
+
+
+.serviceItem {
+    width: 22rem;
+    height: 13rem;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: all 2s ease-in-out;
+}
+.serviceItem h3{
+    text-align: center;
+}
+.serviceItem p{
+    text-align: center;
+}
+.serviceItem:hover{
+    background-color: #d8edff ;
+}
+
+
+
+.serviceItem h3 {
+    font-size: 1.5rem;
+    color: var(--theme-red-color);
+    margin-bottom: 10px;
+}
+
+.serviceItem p {
+    font-size: 1rem;
+    color: #555;
+}
+
+@media screen and (max-width:720px) {
+    .servicesList{
+        padding-inline:  1rem;
+    }
+  
+   
+}
+
+@media screen and (max-width:480px) {
+    .servicesList{
+        padding-inline: 1.5rem;
+    }
+    .serviceItem {
+        width: auto;
+        height: max-content;
+    }
+    .serviceItem h3{
+        font-size: 1rem;
+    }
+    .serviceItem p{
+        font-size: 0.7rem;
+    }
+    
+    .servicesList hr{
+        display: none;
+    }
+}

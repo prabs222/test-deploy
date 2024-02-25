@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+  {% block head_css_site %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'stylesheet/loanForms.css' %}">
+
+  {% endblock head_css_site %}
+{% endblock css %}
+
+
+{% block content %}
+
+<section class="loanFormWrapper">
+
+    <!-- <div class="loanRegHead">
+        <h1>Personal Loan</h1>
+    </div> -->
+    <div class="loanRegForm">
+        <div class="loanRegImg">
+            <div class="area" >
+                <ul class="circles">
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                </ul>
+        </div >
+            <section class="anim">
+                <div class='air air1'></div>
+                <div class='air air2'></div>
+                <div class='air air3'></div>
+                <div class='air air4'></div>
+            </section>
+            <div class="loanInfo">
+                <center>
+                    <h4 data-aos="fade-up">Loan Information</h4>
+                </center>
+                <ul>
+                    <li data-aos="fade-up" data-aos-delay="100">Flexible repayment options tailored to your financial situation.</li>
+                    <li data-aos="fade-up" data-aos-delay="500">Competitive interest rates for personalized loan solutions.</li>
+                    <li data-aos="fade-up" data-aos-delay="1000">Quick and easy online application process.</li>
+                    <li data-aos="fade-up" data-aos-delay="1500">No hidden fees or charges.</li>
+                    <li data-aos="fade-up" data-aos-delay="2000">Secure and confidential handling of your personal information.</li>
+                    <li data-aos="fade-up" data-aos-delay="2500">Customized loan amounts based on your needs and eligibility.</li>
+                </ul>
+            </div>
+            <!-- <img src="/img/carLoan.png" alt=""> -->
+        </div>
+        <form action="{% url 'loanBooking' %}" method="POST">
+            {% csrf_token %}
+            <center>    
+                <h3>Personal Loan</h3>
+            </center>
+            <div class="form-outline" data-mdb-input-init>
+                <input type="text" name="name" id="form12" class="form-control"  required />
+                <label class="form-label " for="form12">Name</label>
+            </div>
+            <div class="form-outline" data-mdb-input-init>
+                <input type="email" name="email" id="form12" class="form-control" required />
+                <label class="form-label" for="form12">Email</label>
+            </div>
+            <div class="form-outline" data-mdb-input-init>
+                <input type="text" name="address" id="form12" class="form-control" required />
+                <label class="form-label " for="form12">Address</label>
+            </div>
+            <div class="phonePin">
+                <div class="form-outline" data-mdb-input-init>
+                    <input type="number" name="pincode" id="form12" class="form-control" required />
+                    <label class="form-label" for="form12">Pin Code</label>
+                </div>
+                <div class="form-outline" data-mdb-input-init>
+                    <input type="number" name="phone" id="form12" class="form-control" required />
+                    <label class="form-label" for="form12">Phone</label>
+                </div>
+            </div>
+            <input type="hidden" name="loanType" value="personalLoan">
+            <div class="form-outline" data-mdb-input-init>
+                <input type="number" name="monthlySalary" id="form12" class="form-control" required />
+                <label class="form-label" for="form12">Monthly Salary</label>
+            </div>
+            <div class="form-outline" data-mdb-input-init>
+                <input type="number" name="loanAmount" id="form12" class="form-control" required />
+                <label class="form-label" for="form12">Loan Amount</label>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary" data-mdb-ripple-init>Submit</button>
+            </div>
+    </form>
+
+    </div>
+</section>
+
+{% endblock %}

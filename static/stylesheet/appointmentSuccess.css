@@ -1,0 +1,33 @@
+.appointmentConfirmationWrapper{
+    padding-top: 7rem;
+    padding-bottom: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.confirmationHeader{
+    text-align: center;
+}
+.confirmationHeader lord-icon{
+    width: 5rem;
+    height: 5rem;
+    text-align: center;
+}
+.confirmationDetails{
+    margin-top: 1rem;
+    max-width: 40rem;
+    /* box-shadow: 0 0 5px 2px rgb(226, 226, 226); */
+    border: 1px solid rgb(211, 211, 211);
+    padding: 1rem 1rem;
+    border-radius: 7px;
+}
+.confirmationDetails p{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    column-gap: 1rem;
+    margin-bottom:0.7rem;
+}
+.confirmationDetails p:last-child{
+    margin-bottom:0;
+}

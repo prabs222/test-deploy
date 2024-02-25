@@ -1,0 +1,138 @@
+{% load static %}
+
+<header>
+    <nav class="navbar container">
+        <a href="{% url 'home' %}" class="logo_nav">
+            <div class="logoImg">
+                <img class="logo_img" src="{% static 'img/logo.png' %}" alt="">
+            </div>
+            <div class="logoName">
+                <h4>Twamitra</h4>
+                <p>Your financial companion</p>
+            </div>
+        </a>
+        <div class="navbar__menu">
+            <ul class="navbar__list">
+                <li class="navbar__list-drop">
+                    <a href="{% url 'loanPage' %}">
+                        Loan Mitra
+                        <!-- <svg class="arrow" width="10" height="6" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke="#fff" stroke-width="1.5" fill="none" d="m1 1 4 4 4-4" />
+                        </svg> -->
+                    </a>
+                    <!-- <ul class="navbar__list-drop-menu">
+                        <li><a href="{% url 'personalLoan' %}">
+                                <i class="fas fa-user"></i>
+                                <span>Personal</span>
+                            </a>
+                        </li>
+                        <li><a href="{% url 'carLoan' %}">
+                                <i class="fas fa-car"></i>
+                                <span>Car</span>
+                            </a>
+                        </li>
+                        <li><a href="{% url 'homeLoan' %}">
+                                <i class="fas fa-house"></i>
+                                <span>Home</span>
+                            </a>
+                        </li>
+                        <li><a href="{% url 'educationLoan' %}">
+                                <i class="fas fa-book-open"></i>
+                                <span>Education</span>
+                            </a>
+                        </li>
+                        <li><a href="{% url 'usedCarLoan' %}">
+                                <i class="fas fa-car-side"></i>
+                                <span>Used Car</span>
+                            </a>
+                        </li>
+                        <li><a href="{% url 'twoWheelerLoan' %}">
+                                <i class="fas fa-motorcycle"></i>
+                                <span>Two wheeler</span>
+                            </a>
+                        </li>
+                    </ul> -->
+                </li>
+                <li class="navbar__list-drop">
+                    <a href="{% url 'consultantServices' %}">Consultant Mitra
+                    </a>
+                </li>
+                <li onclick="comingSoon()"><a href="#">Startup Mitra</a>
+                </li>
+                <li><a href="{% url 'about'%}">About</a></li>
+            </ul>
+            <div class="navbar__buttons">
+                {% if request.user.is_authenticated %}
+                {% if request.user.is_customer %}
+                <a href="{% url 'userDashboard' 'service' %}"><button class="corporateRegBtn" >Dashboard</button></a>
+                {% else %}
+                <a href="{% url 'corporateDashboard' %}"><button class="corporateRegBtn" >Dashboard</button></a>
+                {% endif %}
+
+                <a href="{% url 'logout' %}"><button class="btn btn-outline-white" >Logout</button></a>
+                {% else %}
+                <a class="corporateRegLink" href="{% url 'corporate-registration' %}">
+                    <button class="corporateRegBtn">Corporate</button>
+                </a>
+
+                <a class="navbar__buttons-login" href="{% url 'login' %}"><button class="btn btn-outline-white">Login</button></a>
+                <a href="{% url 'register' %}"><button class="navbar__buttons-register btn btn-white" >Register</button></a>
+                {% endif %}
+            </div>
+        </div>
+        <div class='hamBurger demo'>
+            <div id="menu-icon" class='menu'>
+                <span class='bar1'></span>
+                <span class='bar2'></span>
+                <span class='bar3'></span>
+            </div>
+        </div>
+        </div>
+    </nav>
+</header>
+
+
+<script>
+    const toggleButtons = document.querySelectorAll(".navbar__list-drop");
+    const menu = document.querySelector("#menu-icon");
+    const navbar = document.querySelector(".navbar__menu");
+
+    let openDropdown = null;
+
+    menu.onclick = () => {
+        menu.classList.toggle("active");
+        navbar.classList.toggle("right-open");
+    };
+
+    toggleButtons.forEach((toggleButton) => {
+        toggleButton.addEventListener("click", (event) => {
+            event.stopPropagation();
+
+            // Close the previously opened dropdown
+            if (openDropdown && openDropdown !== toggleButton) {
+                if (openDropdown.firstElementChild.lastElementChild.classList.contains("up")){
+                    openDropdown.firstElementChild.lastElementChild.classList.remove("up");
+                }
+                openDropdown.lastElementChild.classList.remove("open");
+            }
+
+            toggleButton.firstElementChild.lastElementChild.classList.toggle("up");
+            toggleButton.lastElementChild.classList.toggle("open");
+
+            // Set the current dropdown as the open one
+            openDropdown = toggleButton;
+        });
+    });
+
+    document.body.addEventListener("click", () => {
+        toggleButtons.forEach((toggleButton) => {
+            if(toggleButton.firstElementChild.lastElementChild.classList.contains("up")){
+                toggleButton.firstElementChild.lastElementChild.classList.remove("up");
+            }
+            toggleButton.lastElementChild.classList.remove("open");
+        });
+
+        openDropdown = null; // Reset openDropdown when clicking outside
+    });
+
+</script>    

@@ -1,0 +1,136 @@
+.corporateListWrapper{
+    padding-top: 7rem;
+    padding-inline: 0.7rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.corporateListHead{
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+#locationFilterForm{
+    margin-bottom: 1rem;
+    text-align: center;
+}
+#locationFilterForm label {
+    margin-right: 10px;
+}
+
+#locationFilter {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+#locationFilter option {
+    border-radius: 5px;
+    background-color: white;
+    font-size: 1.2rem;
+    margin-block: 2rem ;
+    padding-block: 2rem;
+}
+.corporateList{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    column-gap: 1rem;
+    margin-bottom: 2rem;
+}
+@media screen and (max-width:1080px) {
+    .corporateList{
+        grid-template-columns: repeat(1,1fr);
+        width: 100%;
+    }
+}
+.corporateItem{
+    width: 100%;
+    /* background-color: rgb(216, 216, 216); */
+    padding: 1.7rem 2rem;
+    display: flex;
+    margin-bottom: 1rem;
+    align-items: center;
+    gap: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.103);
+}
+
+.corporateProfileImg img{
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+}
+.corporateDetails{
+    width: 100%;
+}
+.corporateDetails p{
+    /* margin-top: 1rem; */
+    margin-bottom: 0.6rem;
+}
+.corporateName{
+    border-bottom: 1px solid black;
+    padding-bottom: 1rem;
+    color: black;
+    font-size: 1.7rem;
+}
+.corporateEmail{
+    margin-top: 1.2rem;
+}
+.ratingApply{
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.corporateRating{
+    color: var(--theme-red-color);
+    margin-right: 2rem;
+}
+.corporateApplybtn{
+    width: 100%;
+    background-color: var(--theme-red-color);
+    color: white;
+    padding: 0.4rem 2rem;
+    border-radius: 7px;
+}
+.corporateApplybtn:hover{
+    opacity: 0.9;
+}
+.noCorporateWrapper{
+    margin-bottom: 3rem;
+}
+@media screen and (max-width:540px) {
+    .corporateItem{
+        gap: 1rem;
+    }
+    .ratingApply{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .corporateName{
+        font-size: 1.3rem;
+    }
+    .corporateProfileImg img{
+        width: 6rem;
+        height: 6rem;
+        border-radius: 50%;
+    }.corporateDetails p{
+        margin-bottom: 0.3rem;
+        font-size: 0.7rem;
+    }
+    .corporateName{
+        border-bottom: 1px solid black;
+        padding-bottom: 0.4rem;
+        color: black;
+        font-size: 1.7rem;
+    }
+    .corporateEmail{
+        margin-top: 0.6rem;
+    }
+    .ratingApply{
+        margin-top: 0.6rem
+    }
+    .corporateItem{
+        padding: 1rem 0.5rem;
+    }
+}
+
