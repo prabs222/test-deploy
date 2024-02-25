@@ -519,7 +519,7 @@ def initiatePaymentRequest(request):
         razorpay_order = razorpay_client.order.create(data=data)
 
         razorpay_order_id = razorpay_order['id']
-        callback_url = 'http://127.0.0.1:8000/payment-handler/'
+        callback_url = 'https://test-deploy-klbw.onrender.com/payment-handler/'
         context['razorpay_order_id'] = razorpay_order_id
         context['razorpay_merchant_key'] = settings.RAZOR_KEY_ID
         context['razorpay_amount'] = amount
@@ -904,7 +904,7 @@ def bookAppointment(request):
                 razorpay_order_id = razorpay_order_id
             )
             
-            callback_url = 'http://127.0.0.1:8000/appointmentPaymentHandler/'
+            callback_url = 'https://test-deploy-klbw.onrender.com/appointmentPaymentHandler/'
             context['razorpay_order_id'] = razorpay_order_id
             context['razorpay_merchant_key'] = settings.RAZOR_KEY_ID
             context['razorpay_amount'] = amount
