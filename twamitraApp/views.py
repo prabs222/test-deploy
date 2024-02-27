@@ -18,6 +18,7 @@ from django.db import transaction
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .decorators import is_corporate_user, is_customer
 from django.db.models import Max, Count, Avg
+from imagekit.utils import exif_transpose
 
 
 razorpay_client = razorpay.Client(
@@ -380,10 +381,16 @@ def corporateProfileForm(request):
         if profile_pic_file:
             corporate_db.profilePic = profile_pic_file
             img = Image.open(profile_pic_file)
+            # Rotate image based on EXIF orientation
+            img = exif_transpose(img)
+            # Convert PNG to RGB if necessary
+            if img.mode != 'RGB':
+                img = img.convert('RGB')
             output_io = BytesIO()
             img.save(output_io, format='JPEG', quality=60)
             output_io.seek(0)
-            corporate_db.profilePic.save(profile_pic_file.name, content=output_io)
+            corporate_db.profilePic.save(profile_pic_file.name.split('.')[0] + '.jpeg', content=output_io)
+
 
         corporate_db.save()
 
