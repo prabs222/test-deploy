@@ -4,6 +4,11 @@ from django.core.validators import RegexValidator
 from django.utils import timezone
 from datetime import timedelta
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from PIL import Image
+from io import BytesIO
+import sys
+from django.core.files import File
 
 # Create your models here.
 class SubscriptionType(models.Model):
@@ -40,6 +45,19 @@ class UserDB(models.Model):
     
     updated_at = models.DateTimeField(auto_now = True)
     
+    # def save(self, *args, **kwargs):
+    #     new_image = self.reduce_image_size(self.profilePic)
+    #     self.profilePic = new_image
+    #     super().save(*args, **kwargs)    
+    
+    # def reduce_image_size(self, profilePic):
+    #     print(profilePic)
+    #     img = Image.open(profilePic)
+    #     thumb_io = BytesIO()
+    #     img.save(thumb_io, format='JPEG', quality=50)
+    #     new_image = File(thumb_io, name=profilePic.name)
+    #     return new_image
+    
     def __str__(self):
         return self.user.email
 
@@ -67,7 +85,7 @@ class CorporateDB(models.Model):
     terms_accepted = models.BooleanField(default=False)
     rating = models.DecimalField(max_digits=3, decimal_places=1, validators=[MinValueValidator(0), MaxValueValidator(5)], default=0)
     total_ratings = models.IntegerField(default=0)
-    
+      
     def __str__(self) -> str:
         return self.user.name
 

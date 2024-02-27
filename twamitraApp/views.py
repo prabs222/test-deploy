@@ -379,6 +379,12 @@ def corporateProfileForm(request):
 
         if profile_pic_file:
             corporate_db.profilePic = profile_pic_file
+            img = Image.open(profile_pic_file)
+            output_io = BytesIO()
+            img.save(output_io, format='JPEG', quality=60)
+            output_io.seek(0)
+            corporate_db.profilePic.save(profile_pic_file.name, content=output_io)
+
         corporate_db.save()
 
         messages.success(request, 'Profile updated successfully!')

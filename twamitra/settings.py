@@ -15,8 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# import django
-# django.setup()
+import cloudinary_storage
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -70,6 +69,11 @@ INSTALLED_APPS = [
     'accountApp',
 
     'django_recaptcha',
+    
+    #cloudinary
+    'cloudinary',
+    'cloudinary_storage',
+    
     # socail
     'allauth',
     'allauth.account',
@@ -186,7 +190,7 @@ AUTH_USER_MODEL = 'accountApp.User'
 
 # STATIC_ROOT = BASE_DIR/ 'static'
 STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
+MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 
@@ -248,3 +252,12 @@ CHANNEL_LAYERS = {
 
 RECAPTCHA_PUBLIC_KEY = '6LdN5VgpAAAAAKtNUFPtyaA5RIkuwSSmQl11_emT'
 RECAPTCHA_PRIVATE_KEY = '6LdN5VgpAAAAAMJGB93ac2iIp1tFTkG2J_-K-YHK'
+
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'deejhyima',
+    'API_KEY': '928178373288426',
+    'API_SECRET': 'V6hl96AIuVPu3UPpyCitL9knHqY'
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
